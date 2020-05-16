@@ -21,7 +21,6 @@
   "homepage": "https://github.com/seppeclottemans/ehbdev4werkstuk#readme",
   "dependencies": {
     "dotenv": "^8.2.0",
-    "lodash": "^4.17.15",
     "node-fetch": "^2.6.0",
     "tailwindcss": "^1.4.6"
   }
