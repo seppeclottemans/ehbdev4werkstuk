@@ -1,13 +1,21 @@
-fetchData();
+// execute on view load
+(function() {
 
-function fetchData() {
-    $.ajax({
-        url: 'entries.json',
-        method: 'GET'
-    }).done(function (data) {
-        console.log(data)
-    }).fail(function (err1, err2) {
-        console.log(err1);
-        console.log(err2);
-    })
+  fetchAllData().then(data => {
+    const allItems = data;
+    console.log(allItems);
+    var genresSet = new Set();
+  })
+})();
+
+// fetch all data from the entries.json file and return them.
+function fetchAllData() {
+  return axios.get('/entries.json')
+  .then(function (response) {
+    return response.data
+  })
+  .catch(function (error) {
+    console.log(error);
+  })
 }
+
