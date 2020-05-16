@@ -8,19 +8,21 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/pmcp/ehbdev4werkstuk.git"
+    "url": "git+https://github.com/seppeclottemans/ehbdev4werkstuk.git"
   },
   "keywords": [
     "practice"
   ],
-  "author": "Maarten Lauwaert",
+  "author": "Seppe Clottemans",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/pmcp/ehbdev4werkstuk/issues"
+    "url": "https://github.com/seppeclottemans/ehbdev4werkstuk/issues"
   },
-  "homepage": "https://github.com/pmcp/ehbdev4werkstuk#readme",
+  "homepage": "https://github.com/seppeclottemans/ehbdev4werkstuk#readme",
   "dependencies": {
     "dotenv": "^8.2.0",
-    "node-fetch": "^2.6.0"
+    "lodash": "^4.17.15",
+    "node-fetch": "^2.6.0",
+    "tailwindcss": "^1.4.6"
   }
 }
