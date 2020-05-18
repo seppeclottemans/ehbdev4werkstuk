@@ -207,7 +207,6 @@ function filterByGenre(itemArray) {
 
 function removeFilters(){
     genreFilters = [];
-    console.log(targetAudience);
     targetAudience.forEach(function (selectedElement, index) {
         document.getElementById(selectedElement).classList.toggle('filterActive')
     });
