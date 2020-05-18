@@ -1,4 +1,4 @@
-let activeFilters = [];
+let genreFilters = [];
 let targetAudience = [];
 let allItems;
 
@@ -11,8 +11,8 @@ let allItems;
         console.log(allItems);
 
         // add eventlistners
-        document.getElementById("familie").addEventListener("click", toggleFilter.bind(null, activeFilters, "familie"));
-        document.getElementById("volwassenen").addEventListener("click", toggleFilter.bind(null, activeFilters, "volwassenen"));
+        document.getElementById("familie").addEventListener("click", toggleFilter.bind(null, targetAudience, "familie"));
+        document.getElementById("volwassenen").addEventListener("click", toggleFilter.bind(null, targetAudience, "volwassenen"));
 
         // all genres with number of occurences
         const genres = getGenres(allItems);
@@ -20,11 +20,7 @@ let allItems;
         removeObjectProperty(genres, "");
 
         // print genre buttons
-        for (var genre in genres) {
-            let genreButton = createHtmlElement("button", genre, `${genre} (${genres[genre]})`, "px-4 py-2 mt-2 font-semibold text-xs rounded-lg bg-gray-200 hover:bg-gray-300 uppercase mr-2");
-            genreButton.addEventListener("click", toggleFilter.bind(null, activeFilters, genre));
-            appendTo(genreButton, document.getElementById("genres"));
-        };
+        prinGenreButtons(genres);
 
         // create and add an item card to the html
         printAllItems();
@@ -46,6 +42,18 @@ let removeObjectProperty = (object, key) => {
     return delete object[key];
 }
 
+let clearDiv = (elementId) => {
+    return document.getElementById(elementId).innerHTML = "";
+}
+
+let checkIfArrayIsEmpty = (array) => {
+    if (array.length <= 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 // fetch all data from the entries.json file and return them.
 function fetchAllData() {
     return axios.get('/entries.json')
@@ -57,7 +65,9 @@ function fetchAllData() {
         })
 }
 
-function printAllItems(){
+// print all items (this will onlyb be used if there are no filters active)
+function printAllItems() {
+    clearDiv("videos");
     allItems.forEach(item => {
         createItemCard(item)
     });
@@ -81,6 +91,16 @@ function getGenres(array) {
     }, {});
 }
 
+function prinGenreButtons(genres) {
+    clearDiv("genres");
+    // print genre buttons
+    for (var genre in genres) {
+        let genreButton = createHtmlElement("button", genre, `${genre} (${genres[genre]})`, "px-4 py-2 mt-2 font-semibold text-xs rounded-lg bg-gray-200 hover:bg-gray-300 uppercase mr-2");
+        genreButton.addEventListener("click", toggleFilter.bind(null, genreFilters, genre));
+        appendTo(genreButton, document.getElementById("genres"));
+    };
+}
+
 // create a new html element
 function createHtmlElement(kind, id, text, classes) {
     let element = document.createElement(kind);
@@ -97,7 +117,7 @@ function appendTo(itemToApppend, parent) {
 }
 
 // card styling: https://tailwindcomponents.com/component/simple-card
-function createItemCard(item){
+function createItemCard(item) {
     let itemDiv = createHtmlElement("div", "item-card", "", "w-1/4 inline-block rounded overflow-hidden shadow-lg my-2 mx-8");
     let imagediv = createHtmlElement("div", "image-div", "", "w-full h-64 bg-cover bg-center");
     imagediv.style = `background-image:url('${item['thumbnail']['url']}')`
@@ -112,17 +132,19 @@ function createItemCard(item){
     appendTo(itemDiv, document.getElementById("videos"))
 }
 
-function toggleFilter(array, buttonId){
-    let button = document.getElementById(buttonId);
+// toggles filter from active to inactice
+function toggleFilter(array, buttonId) {
+    const button = document.getElementById(buttonId);
 
-    if(button.classList.contains('filterActive')){
+    if (button.classList.contains('filterActive')) {
         _.pull(array, buttonId);
-        if(checkIfArrayIsEmpty(array) && checkIfArrayIsEmpty(targetAudience)){
+        // check if there are active filters
+        if (checkIfArrayIsEmpty(array) && checkIfArrayIsEmpty(targetAudience)) {
             printAllItems();
-        }else{
+        } else {
             printItemsByFilters();
         }
-    }else{
+    } else {
         array.push(buttonId);
         printItemsByFilters();
     }
@@ -130,21 +152,40 @@ function toggleFilter(array, buttonId){
 }
 
 
-function printItemsByFilters(){
+function printItemsByFilters() {
     clearDiv("videos");
-    
-}
 
-let clearDiv = (elementId) =>
-{
-    return document.getElementById(elementId).innerHTML = "";
-}
-
-let checkIfArrayIsEmpty = (array) =>
-{
-    if(array.length <= 0){
-        return true;
-    }else{
-        return false;
+    let itemsToPrint = filterByAudience();
+    if (targetAudience.length == 1) {
+        const genres = getGenres(itemsToPrint);
+        removeObjectProperty(genres, "");
+        prinGenreButtons(genres)
     }
+
+    if (!checkIfArrayIsEmpty(genreFilters)) {
+        itemsToPrint = filterByGenre(itemsToPrint);
+    }
+
+    itemsToPrint.forEach(item => {
+        createItemCard(item);
+    });
+}
+
+// filter all items by selected audience
+function filterByAudience() {
+    if (targetAudience.length == 1) {
+        const audience = targetAudience[0];
+        return allItems.filter(function (item) {
+            return item['category'] === audience;
+        });
+    } else {
+        return allItems;
+    }
+}
+
+// filter an item array by selected genres
+function filterByGenre(itemArray) {
+    return itemArray.filter(function (item) {
+        return genreFilters.includes(_.upperCase(item['genre'] || _.upperCase(item['genre-v2'])));
+    })
 }
