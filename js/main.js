@@ -8,23 +8,12 @@ let allItems;
     fetchAllData().then(data => {
         // variable with all data
         allItems = data;
-        console.log(allItems);
 
         // add eventlistners
         document.getElementById("familie").addEventListener("click", toggleFilter.bind(null, targetAudience, "familie"));
         document.getElementById("volwassenen").addEventListener("click", toggleFilter.bind(null, targetAudience, "volwassenen"));
 
-        // all genres with number of occurences
-        const genres = getGenres(allItems);
-
-        // remove empty genres
-        removeObjectProperty(genres, "");
-
-        // print genre buttons
-        genreButtons = prinGenreButtons(genres);
-
-        // create and add an item card to the html
-        printAllItems();
+        noActiveFilters();
     })
 
 })();
@@ -155,14 +144,7 @@ function toggleFilter(array, buttonId) {
         _.pull(array, buttonId);
         // check if there are active filters
         if (checkIfArrayIsEmpty(genreFilters) && checkIfArrayIsEmpty(targetAudience)) {
-            // all genres with number of occurences
-            const genres = getGenres(allItems);
-            // remove empty genres
-            removeObjectProperty(genres, "");
-
-            // print genre buttons
-            genreButtons = prinGenreButtons(genres);
-            printAllItems();
+            noActiveFilters();
         } else {
             printItemsByFilters();
         }
@@ -176,6 +158,7 @@ function toggleFilter(array, buttonId) {
 
 function printItemsByFilters() {
     clearDiv("videos");
+    document.getElementById("removeFilters").style.display = "block";
 
     let itemsToPrint = filterByAudience();
 
@@ -220,4 +203,27 @@ function filterByGenre(itemArray) {
     return itemArray.filter(function (item) {
         return _.includes(genreFilters, _.upperCase(item['genre'])) || _.includes(genreFilters, _.upperCase(item['genre-v2']));
     })
+}
+
+function removeFilters(){
+    genreFilters = [];
+    console.log(targetAudience);
+    targetAudience.forEach(function (selectedElement, index) {
+        document.getElementById(selectedElement).classList.toggle('filterActive')
+    });
+    targetAudience.splice(0, 2);
+    noActiveFilters();
+}
+
+
+function noActiveFilters(){
+    document.getElementById("removeFilters").style.display = "none";
+    // all genres with number of occurences
+    const genres = getGenres(allItems);
+    // remove empty genres
+    removeObjectProperty(genres, "");
+
+    // print genre buttons
+    genreButtons = prinGenreButtons(genres);
+    printAllItems();
 }
