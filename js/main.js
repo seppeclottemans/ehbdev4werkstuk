@@ -218,6 +218,6 @@ function filterByAudience() {
 // filter an item array by selected genres
 function filterByGenre(itemArray) {
     return itemArray.filter(function (item) {
-        return genreFilters.includes(_.upperCase(item['genre'] || _.upperCase(item['genre-v2'])));
+        return _.includes(genreFilters, _.upperCase(item['genre'])) || _.includes(genreFilters, _.upperCase(item['genre-v2']));
     })
 }
