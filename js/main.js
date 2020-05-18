@@ -16,6 +16,7 @@ let allItems;
 
         // all genres with number of occurences
         const genres = getGenres(allItems);
+
         // remove empty genres
         removeObjectProperty(genres, "");
 
@@ -44,6 +45,12 @@ let removeObjectProperty = (object, key) => {
 
 let clearDiv = (elementId) => {
     return document.getElementById(elementId).innerHTML = "";
+}
+
+let sortAlphabetical = (array, key) => {
+    return array.sort(function(a,b) {
+        return a[key] < b[key] ? -1 : a[key] > b[key] ? 1 : 0;
+    });
 }
 
 let checkIfArrayIsEmpty = (array) => {
@@ -93,11 +100,13 @@ function getGenres(array) {
 
 function prinGenreButtons(genres) {
     clearDiv("genres");
+    const genresDiv = document.getElementById("genres");
     // print genre buttons
-    for (var genre in genres) {
-        let genreButton = createHtmlElement("button", genre, `${genre} (${genres[genre]})`, `px-4 py-2 mt-2 font-semibold text-xs rounded-lg bg-gray-200 hover:bg-gray-300 uppercase mr-2 ${checkIfGenreIsInActiveFilters(genre)}`);
+    genres = sortAlphabetical(Object.entries(genres), 0)
+    for (let [genre, amount] of genres) {
+        let genreButton = createHtmlElement("button", genre, `${genre} (${amount})`, `px-4 py-2 mt-2 font-semibold text-xs rounded-lg bg-gray-200 hover:bg-gray-300 uppercase mr-2 ${checkIfGenreIsInActiveFilters(genre)}`);
         genreButton.addEventListener("click", toggleFilter.bind(null, genreFilters, genre));
-        appendTo(genreButton, document.getElementById("genres"));
+        appendTo(genreButton, genresDiv);
     };
 }
 
@@ -192,7 +201,6 @@ function printItemsByFilters() {
     itemsToPrint.forEach(item => {
         createItemCard(item);
     });
-    console.log(itemsToPrint);
 }
 
 // filter all items by selected audience
