@@ -8,7 +8,6 @@ let allItems;
     fetchAllData().then(data => {
         // variable with all data
         allItems = data;
-
         // add eventlistners
         document.getElementById("familie").addEventListener("click", toggleFilter.bind(null, targetAudience, "familie"));
         document.getElementById("volwassenen").addEventListener("click", toggleFilter.bind(null, targetAudience, "volwassenen"));
@@ -52,7 +51,7 @@ let checkIfArrayIsEmpty = (array) => {
 
 // fetch all data from the entries.json file and return them.
 function fetchAllData() {
-    return axios.get('/entries.json')
+    return axios.get('data/entries.json')
         .then(function (response) {
             return response.data.items;
         })
@@ -72,7 +71,7 @@ function printAllItems() {
 // get all genres from items
 // function inspired by: https://stackoverflow.com/questions/45630356/how-to-count-multiple-properties-values-in-array-of-objects-using-lodash
 function getGenres(array) {
-    return array.reduce((accumulator, currentValue) => {
+    let genres = array.reduce((accumulator, currentValue) => {
         accumulator[_.upperCase(currentValue["genre"])] = accumulator[_.upperCase(currentValue["genre"])] ? accumulator[_.upperCase(currentValue["genre"])] + 1 : 1;
 
         // check if genre are different
@@ -84,7 +83,8 @@ function getGenres(array) {
         }
 
         return accumulator;
-    }, {});
+    }, {})
+    return genres;
 }
 
 function prinGenreButtons(genres) {

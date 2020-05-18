@@ -4,7 +4,8 @@
   "description": "Werkstuk voor development 4",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -21,7 +22,18 @@
   "homepage": "https://github.com/seppeclottemans/ehbdev4werkstuk#readme",
   "dependencies": {
     "dotenv": "^8.2.0",
+    "lodash": "^4.17.15",
     "node-fetch": "^2.6.0",
     "tailwindcss": "^1.4.6"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.8.4",
+    "@babel/node": "^7.8.4",
+    "@babel/preset-env": "^7.8.4",
+    "babel-preset-env": "^1.7.0",
+    "jest": "^26.0.1",
+    "jest-step-by-step-report": "^0.1.1",
+    "jshint": "^2.11.0"
   }
 }
