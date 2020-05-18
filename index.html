@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" type="text/css" href="css/tailwind-main.css">
+    <link rel="stylesheet" type="text/css" href="css/custom.css">
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.15/lodash.min.js"> </script>
 </head>
@@ -26,24 +26,28 @@
         <div id="filters" class="mt-6">
             <h6 class="font-bold">Doelgroep</h6>
             <div id="targetAudience" class="mb-4">
-                <button
-                    class="px-4 py-2 mt-2 font-semibold text-xs rounded-lg bg-gray-200 hover:bg-gray-300 uppercase mr-2">Volwassenen</button>
-                <button
-                    class="px-4 py-2 mt-2 font-semibold text-xs rounded-lg bg-gray-200 hover:bg-gray-300 uppercase mr-2">Familie</button>
+                <button id="volwassenen"
+                    class="px-4 py-2 mt-2 font-semibold text-xs rounded-lg bg-gray-200 hover:bg-gray-300 uppercase mr-2 filterInActive">Volwassenen</button>
+                <button id="familie"
+                    class="px-4 py-2 mt-2 font-semibold text-xs rounded-lg bg-gray-200 hover:bg-gray-300 uppercase mr-2 filterInActive">Familie</button>
             </div>
             <h6 class="font-bold">Genre</h6>
             <div id="genres" class="mb-4">
 
             </div>
 
-            <!-- card styling: https://tailwindcomponents.com/component/simple-card -->
-            <div id="videos" class="mb-4 flex-wrap w-full">
-
-            </div>
-
         </div>
 
-        <script src="js/main.js"></script>
+    </div>
+
+    <!-- card styling: https://tailwindcomponents.com/component/simple-card -->
+    <div class="flex flex-wrap mx-64 box-border">
+        <div id="videos" class="mb-4 flex-wrap w-full">
+
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
 </body>
 
 </html>

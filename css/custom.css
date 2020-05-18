@@ -1,0 +1,16 @@
+@import "tailwind-main.css";
+
+html {
+    overflow: -moz-scrollbars-vertical; 
+    overflow-y: scroll;
+}
+
+.filterActive{
+    --bg-opacity: 1;
+    background-color: #cbd5e0;
+    background-color: rgba(203, 213, 224, var(--bg-opacity));
+
+    --text-opacity: 1;
+    color: #f56565;
+    color: rgba(245, 101, 101, var(--text-opacity));
+}

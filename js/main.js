@@ -1,29 +1,50 @@
+let activeFilters = [];
+let targetAudience = [];
+let allItems;
+
 // execute on view load
 (function () {
 
     fetchAllData().then(data => {
         // variable with all data
-        const allItems = data;
+        allItems = data;
         console.log(allItems);
+
+        // add eventlistners
+        document.getElementById("familie").addEventListener("click", toggleFilter.bind(null, activeFilters, "familie"));
+        document.getElementById("volwassenen").addEventListener("click", toggleFilter.bind(null, activeFilters, "volwassenen"));
 
         // all genres with number of occurences
         const genres = getGenres(allItems);
         // remove empty genres
-        removeObjectItem(genres, "");
-        console.log(genres);
+        removeObjectProperty(genres, "");
+
         // print genre buttons
         for (var genre in genres) {
-            let genreButton = createHtmlElement("button", "genre", `${genre} (${genres[genre]})`, "px-4 py-2 mt-2 font-semibold text-xs rounded-lg bg-gray-200 hover:bg-gray-300 uppercase mr-2");
+            let genreButton = createHtmlElement("button", genre, `${genre} (${genres[genre]})`, "px-4 py-2 mt-2 font-semibold text-xs rounded-lg bg-gray-200 hover:bg-gray-300 uppercase mr-2");
+            genreButton.addEventListener("click", toggleFilter.bind(null, activeFilters, genre));
             appendTo(genreButton, document.getElementById("genres"));
         };
 
-        allItems.forEach(item => {
-            createItemCard(item)
-        });
-
+        // create and add an item card to the html
+        printAllItems();
     })
 
 })();
+
+// compare two strings
+let compareStrings = (string1, string2) => {
+    if (string1 === string2) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+// remover object property
+let removeObjectProperty = (object, key) => {
+    return delete object[key];
+}
 
 // fetch all data from the entries.json file and return them.
 function fetchAllData() {
@@ -34,6 +55,12 @@ function fetchAllData() {
         .catch(function (error) {
             console.log(error);
         })
+}
+
+function printAllItems(){
+    allItems.forEach(item => {
+        createItemCard(item)
+    });
 }
 
 // get all genres from items
@@ -54,19 +81,7 @@ function getGenres(array) {
     }, {});
 }
 
-// compare two strings
-function compareStrings(string1, string2) {
-    if (string1 === string2) {
-        return true;
-    } else {
-        return false;
-    }
-}
-
-function removeObjectItem(object, key) {
-    return delete object[key];
-}
-
+// create a new html element
 function createHtmlElement(kind, id, text, classes) {
     let element = document.createElement(kind);
     element.id = id;
@@ -76,10 +91,10 @@ function createHtmlElement(kind, id, text, classes) {
     return element;
 }
 
+// append element
 function appendTo(itemToApppend, parent) {
     parent.appendChild(itemToApppend);
 }
-
 
 // card styling: https://tailwindcomponents.com/component/simple-card
 function createItemCard(item){
@@ -95,4 +110,41 @@ function createItemCard(item){
     appendTo(imagediv, itemDiv)
     appendTo(textDiv, itemDiv)
     appendTo(itemDiv, document.getElementById("videos"))
+}
+
+function toggleFilter(array, buttonId){
+    let button = document.getElementById(buttonId);
+
+    if(button.classList.contains('filterActive')){
+        _.pull(array, buttonId);
+        if(checkIfArrayIsEmpty(array) && checkIfArrayIsEmpty(targetAudience)){
+            printAllItems();
+        }else{
+            printItemsByFilters();
+        }
+    }else{
+        array.push(buttonId);
+        printItemsByFilters();
+    }
+    button.classList.toggle('filterActive');
+}
+
+
+function printItemsByFilters(){
+    clearDiv("videos");
+    
+}
+
+let clearDiv = (elementId) =>
+{
+    return document.getElementById(elementId).innerHTML = "";
+}
+
+let checkIfArrayIsEmpty = (array) =>
+{
+    if(array.length <= 0){
+        return true;
+    }else{
+        return false;
+    }
 }
