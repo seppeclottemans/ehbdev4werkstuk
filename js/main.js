@@ -145,7 +145,7 @@ function toggleFilter(array, buttonId) {
     if (button.classList.contains('filterActive')) {
         _.pull(array, buttonId);
         // check if there are active filters
-        if (checkIfArrayIsEmpty(array) && checkIfArrayIsEmpty(targetAudience)) {
+        if (checkIfArrayIsEmpty(genreFilters) && checkIfArrayIsEmpty(targetAudience)) {
             // all genres with number of occurences
             const genres = getGenres(allItems);
             // remove empty genres
@@ -169,10 +169,20 @@ function printItemsByFilters() {
     clearDiv("videos");
 
     let itemsToPrint = filterByAudience();
+
+    // genre buttons
     if (targetAudience.length == 1) {
         const genres = getGenres(itemsToPrint);
         removeObjectProperty(genres, "");
         prinGenreButtons(genres)
+    }else{
+        // all genres with number of occurences
+        const genres = getGenres(allItems);
+        // remove empty genres
+        removeObjectProperty(genres, "");
+
+        // print genre buttons
+        genreButtons = prinGenreButtons(genres);
     }
 
     if (!checkIfArrayIsEmpty(genreFilters)) {
