@@ -15,8 +15,15 @@ export function getGenres(array) {
 
         return accumulator;
     }, {})
-    console.log(genres);
     return genres;
+}
+
+let genreFilters = ["THEATER", "DANS"];
+
+export function filterByGenre(itemArray) {
+    return itemArray.filter(function (item) {
+        return _.includes(genreFilters, _.upperCase(item['genre'])) || _.includes(genreFilters, _.upperCase(item['genre-v2']));
+    })
 }
 
 // compare two strings

@@ -39,5 +39,11 @@ export const items = [
         "genre": "Theater ",
         "genre-v2": "theater",
         "slug": "test5"
+      },
+      {
+        "category": "familie",
+        "genre": "dans ",
+        "genre-v2": "dans",
+        "slug": "test6"
       }
 ];
