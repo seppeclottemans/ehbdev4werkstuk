@@ -1,25 +1,23 @@
 # Development 4: Opdracht Werkstuk
 
-## Short
-Podiumaanhuis.be is a new website that offers full video's of theater pieces. It's created very quickly using Webflow, a  very simple website creating platform. Now the organisation wants to recreate the app from scratch, using HTML, CSS and Javascript.
+# Resources
+- Lodash (for various javaScript functions) https://lodash.com
+- Tailwindcss (for styling components) https://tailwindcss.com
+- axios (for data fetching) https://github.com/axios/axios
 
-One feature is the option to filter the video entries based on genres and audience. Using the JSON fetch the entries, show them on the page, and recreate the filter like it is presented on podiumaanhuis.be.
 
-## Requirements
-- Write out your approach in the readme.md file. Do a functional analysis of the existing app. Plan your data, functions and the flow of your app.
-- It must work. This is the most important requirement. Don't worry too much about clean code or functional programming in the beginning. Create the app, and iterate.
-- Push your iterations to github.
-- Try to make your code as functional & pure as possible.
-- Try to avoid side effects as much as possible.
-- Write tests for at least 2 functions
-- Show the result on the webpage
-- COMMENTS COMMENTS COMMENTS
 
-## Resources
-https://www.podiumaanhuis.be/
+# Approach
+Alle JavaScript logica gebeurt in de js/main.js file.
 
-https://github.com/pmcp/ehbdev4werkstuk
+1) Haal alle data op van de data/entries.json file. (functie: fetchAllData)
+2) Voeg genre buttons toe met een cijfer dat weergeeft hoevaak dit genre bij de bij de items voor komt aan de hand van een reduce functie. (functie: getGenres)
+3) Voeg een item card toe aan de html voor elk item. (functie: printAllItems)
+4) Wanneer een doelgroep filter word aangeklikt word deze filter toegevoegd in de "targetAudience" array, vervolgens worden de genre knoppen aangepast naar de correcte aantallen rekening houdend met de doelgroep filter. Hierna worden de geschikte items weergegeven die bij de filters behoren.(functies: toggleFilter, filterByAudience, printItemsByFilters)
+5) Wanneer een genre filter word aangeklikt word deze filter toegevoegd in de "genreFilters" array en worden de geschikte items weergegeven die bij de filters behoren .(functies: toggleFilter, filterByGenre, printItemsByFilters)
+6) Als men op de filters wissen knop drukt worden alle filters uit de array verwijderd en alle items opnieuw weergegeven (functie: removeFilters)
 
-https://docs.google.com/presentation/d/1tlhfJPTmw0MP4kfKSdszo4bUSKwG9xRcuSmzhbkiNaw/edit?usp=sharing
-
- 
+# Tests
+1) De test functies staan onder tests/index.test.js
+2) Voor de test functies voorzie ik wat basic test data in de tests/data.js file.
+3) De JavaScript functies die getest worden staan in de tests/test_functions.js file.

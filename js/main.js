@@ -205,6 +205,7 @@ function filterByGenre(itemArray) {
     })
 }
 
+// remove all active filters
 function removeFilters(){
     genreFilters = [];
     targetAudience.forEach(function (selectedElement, index) {
